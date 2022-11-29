@@ -1,0 +1,180 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+    
+</head>
+
+<body>
+
+   
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Shopping Cart</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="category.html">Cart</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+
+    <!--================Cart Area =================-->
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in catrs %}
+                            <tr>
+                                <td>
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <img src="{{i.product.product_image.url}}" width="160px" alt="">
+                                        </div>
+                                        <div class="media-body">
+                                            <p>{{i.product.product_name}}</p>
+                                        </div>
+                                        <div class="media-body">
+                                           <a href="{% url 'remove_from_cart' pk=i.product.pk %}"><input type="button" name="action" value="Remove" class="btn btn-danger"></a> 
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>₹ {{i.product.product_price}}</h5>
+                                </td>
+                                <td>
+                                    <div class="product_count">
+                                        <form method="post" action="{% url 'change_qty' pk=i.pk %}">
+                                        {% csrf_token %}
+                                        <input type="number" id="product_qty" name="product_qty" min="0" max="100" step="1" value="{{i.product_qty}}" onchange="this.form.submit();">
+                                        </form>
+                                        
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>{{i.total_price}}</h5>
+                                </td> 
+                            </tr>
+                            {% endfor %}
+                            
+                            
+                            <tr class="bottom_button">
+                                <td>
+                                    <a class="gray_btn" href="{% url 'update_cart' %}">Update Cart</a>
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <div class="cupon_text d-flex align-items-center">
+                                        <input type="text" placeholder="Coupon Code">
+                                        <a class="primary-btn" href="#">Apply</a>
+                                        <a class="gray_btn" href="#">Close Coupon</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <h5>Subtotal</h5>
+                                </td>
+                                
+                                <td>
+                                    <h5>{{totalprice}}</h5>
+                                </td>
+                                
+                             
+                            </tr>
+                            
+                            <td>
+                                    <h5>
+                                        {% if msg %}
+                                            <b style="color: blue;">{{msg}}</b>
+                                         {% endif %}
+                                      </h5>
+                                </td>
+                            
+                            <tr class="shipping_area">
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                
+                                <td>
+                                    <div class="shipping_box">
+                                        <ul class="list">
+                                            <h5>Discount:- up to 1000 :No Discount</h5>
+                                            <h5>Discount:- up to 2000 :5% Discount</h5>
+                                            <h5>Discount:- up to 5000 :10% Discount</h5>
+                                            <h5>Discount:- up to 10000 :20% Discount</h5>
+                                            <h5>Discount:- more than 10000 :25% Discount</h5>
+
+                                            <h5>Delivery Cost:- Free</h5>
+
+                                        </ul>
+                                       
+                                        
+                                        <input type="text" placeholder="Postcode/Zipcode">
+                                        <a class="gray_btn" href="#">Update Details</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="out_button_area">
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <div class="checkout_btn_inner d-flex align-items-center">
+                                        <a class="gray_btn" href="/">Continue Shopping</a>
+                                        <a class="primary-btn" href="{% url 'checkout' %}">Proceed to checkout</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Cart Area =================-->
+
+</body>
+
+</html>
+{% endblock %}

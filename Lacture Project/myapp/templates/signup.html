@@ -1,0 +1,99 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+	
+</head>
+
+<body style="background-color:lightgray;">
+
+	
+
+	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Create Account</h1>
+					<nav class="d-flex align-items-center">
+						<a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="#">Account<span class="lnr lnr-arrow-right"></span></a>
+						<a href="category.html">Create Account</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+
+	<!--================Contact Area =================-->
+	<section class="contact_area section_gap_bottom">
+		<div class="container">
+			<br><br>
+			<div class="row">
+				<h1 style="margin-left: 330px; color: orange;">Create Account</h1>
+				
+				<div class="col-lg-12">
+					<br><br>
+					{% if msg %}
+					<b style="color: blue; margin-left:300px">{{msg}}</b>
+					 {% endif %}
+					<form class="row contact_form " action="{% url 'signup' %}" method="post" id="contactForm" novalidate="novalidate" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="col-md-9">
+							
+							
+								<div class="form-group">
+									<select class="form-control" name="usertype"  >
+										<option >---Select User Type</option>
+										<option value="user">user</option>
+										<option value="seller">seller</option>
+									</select>
+								</div>
+							
+
+							<div class="form-group">
+								<input type="text" class="form-control" id="name" name="fname" style="border-radius:10px; border-color:blue; color: black; font: bold;" value="{{user.fname}}" placeholder="Enter your First Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your First Name'">
+							</div>
+							<div class="form-group ">
+								<input type="text" class="form-control" id="name" name="lname" style="border-radius:10px; border-color:blue; color: black; font: bold;" value="{{user.lname}}" placeholder="Enter your Last Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your Last Name'">
+							</div>
+							<div class="form-group">
+								<input type="email" class="form-control" id="email" name="email" style="border-radius:10px; border-color:blue; color: black; font: bold;" value="{{user.email}}" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="mobile" name="mobile" style="border-radius:10px; border-color:blue; color: black; font: bold;" value="{{user.mobile}}" placeholder="Enter Mobile Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Mobile Number'">
+							</div>
+							<div class="form-group">
+								<textarea class="form-control" name="address" style="border-radius:10px; border-color:blue; color: black; font: bold;" id="address" rows="1" placeholder="Enter Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Address'">{{user.address}}</textarea>
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" style="border-radius:10px; border-color:blue; color: black; font: bold;" id="password" name="password" placeholder="Enter Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Password'">
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" style="border-radius:10px; border-color:blue; color: black; font: bold;" id="cpassword" name="cpassword" placeholder="Enter Confrim Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Confrim Password'">
+							</div>
+
+							<div class="form-group">
+								<input type="file" class="form-control" style="border-radius:10px; border-color:blue; color: black; font: bold; height: 50px; padding: 10px;" id="profile" name="profile_pic">
+							</div>
+						</div>
+						
+						<div class="col-md-5 text-right" >
+							<button type="submit" value="submit" style="border-radius:10px;" class="primary-btn" >Sign Up</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================Contact Area =================-->
+
+
+</body>
+
+</html>
+{% endblock %}

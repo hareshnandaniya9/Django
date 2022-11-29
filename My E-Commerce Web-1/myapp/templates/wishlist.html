@@ -1,0 +1,91 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<!-- Basic -->
+
+<head>
+    
+
+</head>
+
+<body>
+
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Wishlist</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active">Wishlist</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Wishlist  -->
+    <div class="wishlist-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Images</th>
+                                    <th>Product Name</th>
+                                    <th>Unit Price </th>
+                                    <th>Stock</th>
+                                    <th>Add Item</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in wishlists %}
+                                <tr>
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+									<img class="img-fluid" src="{{i.product.product_image.url}}" style="width: 100px;height: 100px;" alt="" />
+								</a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+									{{i.product.product_name}}
+								</a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>{{i.product.product_price}}</p>
+                                    </td>
+                                    <td class="quantity-box">In Stock</td>
+                                    <td class="add-pr">
+                                        <a class="btn hvr-hover" href="{% url 'add_to_cart' pk=i.pk %}">Add to Cart</a>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a href="{% url 'remove_from_wishlist' pk=i.product.pk %}">
+									<i class="fas fa-times"></i>
+								</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Wishlist -->
+
+    
+</body>
+
+</html>
+{% endblock %}
