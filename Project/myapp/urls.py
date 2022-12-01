@@ -40,4 +40,6 @@ urlpatterns = [
     path('update_cart/',views.update_cart,name="update_cart"),
     path('billing_genrate/',views.billing_genrate,name="billing_genrate"),
     path('change_qty/<int:pk>/',views.change_qty,name="change_qty"),
+    path('pay/',views.initiate_payment, name='pay'),
+    path('callback/',views.callback, name='callback'),
 ]

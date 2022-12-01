@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect
-from .models import User,Product,Comment,Review,Wishlist,Cart
+from .models import User,Product,Comment,Review,Wishlist,Cart,Transaction
 import random
 from django.conf import settings
+from .paytm import generate_checksum, verify_checksum
 from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -68,7 +70,7 @@ def login(request):
 					request.session['fname']=user.fname
 					request.session['lname']=user.lname
 					request.session['profile_pic']=user.profile_pic.url
-					return render(request,"seller_index.html")
+					return redirect("seller_index")
 
 					
 			else:
@@ -376,7 +378,9 @@ def review(request,pk):
 		msg="Comment sand Successfuly"
 		product=Product.objects.get(pk=pk)
 		reviews=Review.objects.all().order_by("-id")[:3]
-		return render(request,"buyer_product_detail.html",{'msg':msg,'reviews':reviews,'product':product})
+		comments=Comment.objects.all().order_by("-id")[:3]
+
+		return render(request,"buyer_product_detail.html",{'comments':comments,'msg':msg,'reviews':reviews,'product':product})
 	else:
 		reviews=Review.objects.all().order_by("-id")[:3]
 		return render(request,"index.html",{'reviews':reviews})
@@ -435,7 +439,8 @@ def update_cart(request):
 
 def checkout(request):
 	user=User.objects.get(email=request.session['email'])
-	carts=Cart.objects.filter(user=user)
+	carts=Cart.objects.filter(user=user,payment_status=False)
+	
 	subtotal=0
 	for item in carts:
 		subtotal=subtotal+item.product.product_price*item.product_qty
@@ -457,7 +462,7 @@ def checkout(request):
 			discount=25
 			msg="25% Discount"
 		discount=(subtotal*discount)/100
-		total=subtotal-discount-shiping
+		total=int(subtotal-discount-shiping)
 
 	request.session['cart_count']=len(carts)
 	return render(request,"checkout.html",{'msg':msg,'user':user,'catrs':carts,'subtotal':subtotal,'shiping':shiping,'discount':discount,'total':total})
@@ -473,3 +478,65 @@ def change_qty(request,pk):
 	cart.save()
 	return redirect('cart')
 
+def initiate_payment(request):
+    user=User.objects.get(email=request.session['email'])
+    try:
+        
+        amount = int(request.POST['amount'])
+       
+    except:
+        return render(request, 'pay.html', context={'error': 'Wrong Accound Details or amount'})
+
+    transaction = Transaction.objects.create(made_by=user, amount=amount)
+    transaction.save()
+    merchant_key = settings.PAYTM_SECRET_KEY
+
+    params = (
+        ('MID', settings.PAYTM_MERCHANT_ID),
+        ('ORDER_ID', str(transaction.order_id)),
+        ('CUST_ID', str(transaction.made_by.email)),
+        ('TXN_AMOUNT', str(transaction.amount)),
+        ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
+        ('WEBSITE', settings.PAYTM_WEBSITE),
+        # ('EMAIL', request.user.email),
+        # ('MOBILE_N0', '9911223388'),
+        ('INDUSTRY_TYPE_ID', settings.PAYTM_INDUSTRY_TYPE_ID),
+        ('CALLBACK_URL', 'http://127.0.0.1:8000/callback/'),
+        # ('PAYMENT_MODE_ONLY', 'NO'),
+    )
+
+    paytm_params = dict(params)
+    checksum = generate_checksum(paytm_params, merchant_key)
+
+    transaction.checksum = checksum
+    transaction.save()
+    carts=Cart.objects.filter(user=user,payment_status=False)
+    for i in carts:
+    	i.payment_status=True
+    	i.save()
+    carts=Cart.objects.filter(user=user,payment_status=False)
+    request.session['cart_count']=len(carts)
+    paytm_params['CHECKSUMHASH'] = checksum
+    print('SENT: ', checksum)
+    return render(request, 'redirect.html', context=paytm_params)
+
+
+@csrf_exempt
+def callback(request):
+    if request.method == 'POST':
+        received_data = dict(request.POST)
+        paytm_params = {}
+        paytm_checksum = received_data['CHECKSUMHASH'][0]
+        for key, value in received_data.items():
+            if key == 'CHECKSUMHASH':
+                paytm_checksum = value[0]
+            else:
+                paytm_params[key] = str(value[0])
+        # Verify checksum
+        is_valid_checksum = verify_checksum(paytm_params, settings.PAYTM_SECRET_KEY, str(paytm_checksum))
+        if is_valid_checksum:
+            received_data['message'] = "Checksum Matched"
+        else:
+            received_data['message'] = "Checksum Mismatched"
+            return render(request, 'callback.html', context=received_data)
+        return render(request, 'callback.html', context=received_data)

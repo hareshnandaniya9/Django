@@ -26,8 +26,8 @@
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
 										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-										<span class="add-text text-uppercase">Add to Bag</span>
+										<a class="add-btn" href="{% url 'category' %}"><span class="lnr lnr-cross"></span></a>
+										<span class="add-text text-uppercase">More</span>
 									</div>
 								</div>
 							</div>
@@ -45,8 +45,8 @@
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
 										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-										<span class="add-text text-uppercase">Add to Bag</span>
+										<a class="add-btn" href="{% url 'category' %}"><span class="lnr lnr-cross"></span></a>
+										<span class="add-text text-uppercase">More</span>
 									</div>
 								</div>
 							</div>
@@ -112,78 +112,11 @@
 	</section>
 	<!-- end features Area -->
 
-	<!-- Start category Area -->
-	<section class="category-area">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-8 col-md-12">
-					<div class="row">
-						<div class="col-lg-8 col-md-8">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{% static 'img/category/c1.jpg' %}" alt="">
-								<a href="{% static 'img/category/c1.jpg' %}" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{% static 'img/category/c2.jpg' %}" alt="">
-								<a href="{% static 'img/category/c2.jpg' %}" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{% static 'img/category/c3.jpg' %}" alt="">
-								<a href="{% static 'img/category/c3.jpg' %}" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Product for Couple</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-8 col-md-8">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{% static 'img/category/c4.jpg' %}" alt="">
-								<a href="{% static 'img/category/c4.jpg' %}" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Sneaker for Sports</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-deal">
-						<div class="overlay"></div>
-						<img class="img-fluid w-100" src="{% static 'img/category/c5.jpg' %}" alt="">
-						<a href="{% static 'img/category/c5.jpg' %}" class="img-pop-up" target="_blank">
-							<div class="deal-details">
-								<h6 class="deal-title">Sneaker for Sports</h6>
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End category Area -->
-
+	
 	<!-- start product Area -->
 	<section>
 		<!-- single product slide -->
-		<br><br><br><br>
+		
 		<div class="single-product-slider">
 			<div class="container">
 				<div class="row justify-content-center">
@@ -219,10 +152,7 @@
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-sync"></span>
-										<p class="hover-text">compare</p>
-									</a>
+									
 
 									<a href="{% url 'buyer_product_detail' pk=i.pk %}" class="social-info">
 										<span class="lnr lnr-move"></span>
@@ -237,10 +167,7 @@
 										<span class="lnr lnr-heart"></span>
 										<p class="hover-text">Wishlist</p>
 									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-sync"></span>
-										<p class="hover-text">compare</p>
-									</a>
+									
 
 									<a href="{% url 'buyer_product_detail' pk=i.pk %}" class="social-info">
 										<span class="lnr lnr-move"></span>
@@ -265,7 +192,7 @@
 				<div class="col-lg-6 no-padding exclusive-left">
 					<div class="row clock_sec clockdiv" id="clockdiv">
 						<div class="col-lg-12">
-							<h1>Exclusive Hot Deal Ends Soon!</h1>
+							<h1>Exclusive Hot Deal Comming Soon!</h1>
 							<p>Who are in extremely love with eco friendly system.</p>
 						</div>
 						<div class="col-lg-12">
@@ -289,7 +216,7 @@
 							</div>
 						</div>
 					</div>
-					<a href="" class="primary-btn">Shop Now</a>
+					<a href="" class="primary-btn">Open Soon</a>
 				</div>
 				<div class="col-lg-6 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">
@@ -298,14 +225,14 @@
 							<img class="img-fluid" src="{% static 'img/product/e-p1.png' %}" alt="">
 							<div class="product-details">
 								<div class="price">
-									<h6>$150.00</h6>
-									<h6 class="l-through">$210.00</h6>
+									<h6>Go And Shop All New Product</h6>
+									
 								</div>
 								<h4>addidas New Hammer sole
 									for Sports person</h4>
 								<div class="add-bag d-flex align-items-center justify-content-center">
-									<a class="add-btn" href=""><span class="ti-bag"></span></a>
-									<span class="add-text text-uppercase">Add to Bag</span>
+									<a class="add-btn" href="{% url 'category' %}"><span class="ti-bag"></span></a>
+									<span class="add-text text-uppercase">More Shop</span>
 								</div>
 							</div>
 						</div>

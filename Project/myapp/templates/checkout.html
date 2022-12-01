@@ -158,7 +158,12 @@
                                 <label for="f-option4">I’ve read and accept the </label>
                                 <a href="#">terms & conditions*</a>
                             </div>
-                            <a class="primary-btn" href="{% url 'billing_genrate' %}" style="border-radius: 10px;">Proceed to Paypal</a>
+                            <form method="post" action="{% url 'pay' %}">
+                                {% csrf_token %}
+                            <input type="hidden" name="amount" value="{{total}}">
+                            <input type="submit" value="Prossed To Pay" class="primary-btn">
+                            <!-- <a class="primary-btn" href="#" style="border-radius: 10px;">Proceed to Paypal</a> -->
+                            </form>
                         </div>
                     </div>
                 </div>
