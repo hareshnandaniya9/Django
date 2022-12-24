@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import User,Product,Comment,Review,Wishlist,Cart,Transaction
+from .models import User,Product,Comment,Review,Wishlist,Cart,Transaction,Contect
 import random
 from django.conf import settings
 from .paytm import generate_checksum, verify_checksum
@@ -8,25 +8,42 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
+
+def search(request):
+	search=request.POST['search']
+	try:
+		products=Product.objects.filter(product_name__icontains=search)
+		return render(request,"index.html",{'products':products})
+	except:
+		products=Product.objects.filter(product_company__icontains=search)
+		return render(request,"index.html",{'products':products})
 def index(request):
 	products=Product.objects.all()
+
+	
 	try:
 		user=User.objects.get(email=request.session['email'])
 		if user.usertype=="user":
-
-			st=request.POST['search']
-			if st!=None:
-				product=Product.objects.filter(product_company=st)
-				return render(request,"index.html",{'product':product})
-			else:
-				products=Product.objects.all()
-				return render(request,"index.html",{'products':products})
+			products=Product.objects.all()
+			return render(request,"index.html",{'products':products,'wishlist_flag':wishlist_flag})
 		else:
 			return render(request,"seller_index.html")
 	except:
 		products=Product.objects.all()
 		return render(request,"index.html",{'products':products})
 
+def contect(request):
+	if request.method=="POST":
+		Contect.objects.create(
+			name=request.POST['name'],
+			email=request.POST['email'],
+			subject=request.POST['subject'],
+			message=request.POST['message']
+			)
+		msg="Your Message Sand Successfuly"
+		return render(request,"contact.html",{'msg':msg})
+	else:
+		return render(request,"contact.html")
 def seller_index(request):
 	products=Product.objects.all()
 	return render(request,"seller_index.html",{'products':products})
@@ -41,7 +58,31 @@ def single_product(request):
 
 
 def confirmation(request):
-	return render(request,"confirmation.html")
+	user=User.objects.get(email=request.session['email'])
+	carts=Cart.objects.filter(user=user)
+	subtotal=0
+	for item in carts:
+		subtotal=subtotal+item.product.product_price*item.product_qty
+		shiping=0
+		discount=0
+		if subtotal <= 1000:
+			discount=0
+			msg="No Discount"
+		elif subtotal <=2000:
+			discount=5
+			msg="5% Discount"
+		elif subtotal <=5000:
+			discount=10
+			msg="10% Discount"
+		elif subtotal <=10000:
+			discount=20
+			msg="20% Discount"
+		else:
+			discount=25
+			msg="25% Discount"
+		discount=(subtotal*discount)/100
+		total=int(subtotal-discount-shiping)
+	return render(request,"confirmation.html",{'user':user,'carts':carts,'total':total,'subtotal':subtotal,'discount':discount,'msg':msg})
 
 def blog(request):
 	return render(request,"blog.html")
@@ -58,6 +99,8 @@ def login(request):
 					request.session['email']=user.email
 					request.session['fname']=user.fname
 					request.session['lname']=user.lname
+					request.session['mobile']=user.mobile
+
 					request.session['profile_pic']=user.profile_pic.url
 					wishlists=Wishlist.objects.filter(user=user)
 					request.session['wishlist_count']=len(wishlists)
@@ -268,8 +311,7 @@ def new_password(request):
 def tracking(request):
 	return render(request,"tracking.html")
 
-def contact(request):
-	return render(request,"contact.html")
+
 
 def seller_add_product(request):
 	if request.method=="POST":
@@ -332,6 +374,8 @@ def buyer_product_detail(request,pk):
 	wishlist_flag=False
 	cart_flag=False
 	product=Product.objects.get(pk=pk)
+	comments=Comment.objects.all()
+	reviews=Review.objects.all()
 	try:
 		user=User.objects.get(email=request.session['email'])
 		Wishlist.objects.get(user=user,product=product)
@@ -344,10 +388,11 @@ def buyer_product_detail(request,pk):
 		cart_flag=True
 	except:
 		pass
-	return render(request,"buyer_product_detail.html",{'product':product,'wishlist_flag':wishlist_flag,'cart_flag':cart_flag})
+	return render(request,"buyer_product_detail.html",{'reviews':reviews,'comments':comments,'product':product,'wishlist_flag':wishlist_flag,'cart_flag':cart_flag})
 
 def comment(request,pk):
 	if request.method=="POST":
+		user=User.objects.get(email=request.session['email'])
 		product=Product.objects.get(pk=pk)
 		Comment.objects.create(
 			name=request.POST['name'],
@@ -360,7 +405,7 @@ def comment(request,pk):
 		comments=Comment.objects.all().order_by("-id")[:3]
 		reviews=Review.objects.all().order_by("-id")[:3]
 
-		return render(request,"buyer_product_detail.html",{'msg':msg,'comments':comments,'product':product,'reviews':reviews})
+		return render(request,"buyer_product_detail.html",{'msg':msg,'user':user,'comments':comments,'product':product,'reviews':reviews})
 	else:
 		product=Product.objects.get(pk=pk)
 		comments=Comment.objects.all().order_by("-id")[:3]
@@ -538,5 +583,43 @@ def callback(request):
             received_data['message'] = "Checksum Matched"
         else:
             received_data['message'] = "Checksum Mismatched"
-            return render(request, 'callback.html', context=received_data)
-        return render(request, 'callback.html', context=received_data)
+            user=User.objects.get(email=request.session['email'])
+            carts=Cart.objects.filter(user=user)
+            return render(request, 'confirmation.html' ,{'user':user,'carts':carts}, context=received_data)
+        user=User.objects.get(email=request.session['email'])
+        carts=Cart.objects.filter(user=user)
+        return render(request, 'confirmation.html' ,{'user':user,'carts':carts}, context=received_data)
+
+
+def product_category(request,name):
+	products=Product.objects.filter(product_category=name)
+	return render(request,'category.html',{'products':products})
+
+def price(request):
+	price=request.POST['price']
+	if request.POST['price']=='1':
+		products=Product.objects.filter(product_price__lte=500)
+		return render(request,"category.html",{'products':products,'price':price})
+	elif request.POST['price']=='2':
+		products=Product.objects.filter(product_price__gte=501,product_price__lte=800)
+		return render(request,"category.html",{'products':products})
+
+	elif request.POST['price']=='3':
+		products=Product.objects.filter(product_price=801,product_price__lte=1000)
+		return render(request,"category.html",{'products':products})
+
+	elif request.POST['price']=='4':
+		products=Product.objects.filter(product_price__gte=1000)
+		return render(request,"category.html",{'products':products})
+
+	else:
+		products=Product.objects.all()
+		return render(request,"category.html",{'products':products})
+
+def brand(request):
+	adidas=request.POST['adidas']
+	products=Product.objects.filter(product_company=adidas)
+	return render(request,"category.html",{'products':products,'adidas':adidas})
+
+	
+

@@ -52,8 +52,12 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-lg-9">
-					<form class="row contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
+					{% if msg %}
+				<h5 style="color: darkgreen;">{{msg}}</h5>
+				{% endif %}
+					<form class="row contact_form" action="{% url 'contect' %}" method="post" id="contactForm" novalidate="novalidate">
 						{% csrf_token %}
 						<div class="col-md-6">
 							<div class="form-group">
@@ -72,7 +76,7 @@
 							</div>
 						</div>
 						<div class="col-md-12 text-right">
-							<button type="submit" value="submit" class="primary-btn" style="border-radius:10px;">Send Message</button>
+							<button type="submit" value="submit" class="primary-btn" style="border-radius:10px; margin-right: 350px;">Send Message</button>
 						</div>
 					</form>
 				</div>

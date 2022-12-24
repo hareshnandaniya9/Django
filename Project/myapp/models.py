@@ -16,7 +16,14 @@ class User(models.Model):
 	def __str__(self):
 		return self.fname +" - "+self.lname
 
+class Contect(models.Model):
+	name=models.CharField(max_length=100)
+	email=models.EmailField()
+	subject=models.CharField(max_length=100)
+	message=models.TextField()
 
+	def __str__(self):
+		return self.name +" - "+self.subject
 
 class Product(models.Model):
 	seller=models.ForeignKey(User,on_delete=models.CASCADE)
@@ -36,6 +43,8 @@ class Comment(models.Model):
 	email=models.EmailField()
 	mobile=models.PositiveIntegerField()
 	message=models.TextField()
+	date=models.DateTimeField(default=timezone.now)
+	
 
 	def __str__(self):
 		return self.name
@@ -45,6 +54,8 @@ class Review(models.Model):
 	email=models.EmailField()
 	mobile=models.PositiveIntegerField()
 	message=models.TextField()
+	date=models.DateTimeField(default=timezone.now)
+
 
 	def __str__(self):
 		return self.name

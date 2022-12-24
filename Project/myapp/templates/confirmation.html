@@ -38,9 +38,9 @@
 					<div class="details_item">
 						<h4>Order Info</h4>
 						<ul class="list">
-							<li><a href="#"><span>Order number</span> : 60235</a></li>
+							<li><a href="#"><span>Order number</span>{{request.session.fname}}</a></li>
 							<li><a href="#"><span>Date</span> : Los Angeles</a></li>
-							<li><a href="#"><span>Total</span> : USD 2210</a></li>
+							<li><a href="#"><span>Total</span> :{{total}}</a></li>
 							<li><a href="#"><span>Payment method</span> : Check payments</a></li>
 						</ul>
 					</div>
@@ -48,11 +48,12 @@
 				<div class="col-lg-4">
 					<div class="details_item">
 						<h4>Billing Address</h4>
+
 						<ul class="list">
-							<li><a href="#"><span>Street</span> : 56/8</a></li>
+							<li><a href="#"><span>Name</span> :{{request.session.fname}}  {{request.session.lname}}</a></li>
 							<li><a href="#"><span>City</span> : Los Angeles</a></li>
-							<li><a href="#"><span>Country</span> : United States</a></li>
-							<li><a href="#"><span>Postcode </span> : 36952</a></li>
+							<li><a href="#"><span>Mobile</span> :{{user.mobile}}</a></li>
+							<li><a href="#"><span>Pincode</span> : 36952</a></li>
 						</ul>
 					</div>
 				</div>
@@ -74,79 +75,74 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col">Product</th>
-								<th scope="col">Quantity</th>
-								<th scope="col">Total</th>
+								<th scope="col" style="color: orange; font-size: 20px;">Product</th>
+								<th scope="col" style="color: orange; font-size: 20px;">Quantity</th>
+								<th scope="col" style="color: orange; font-size: 20px;">Total</th>
 							</tr>
 						</thead>
 						<tbody>
+							{% for i in carts %}
 							<tr>
 								<td>
-									<p>Pixelstore fresh Blackberry</p>
+									<h6>{{i.product.product_name}}</h6>
 								</td>
 								<td>
-									<h5>x 02</h5>
+									<h5>x {{i.product_qty}}</h5>
 								</td>
 								<td>
-									<p>$720.00</p>
+									<h6>{{i.product.product_price}}</h6>
 								</td>
 							</tr>
+							
+							{% endfor %}
 							<tr>
 								<td>
-									<p>Pixelstore fresh Blackberry</p>
-								</td>
-								<td>
-									<h5>x 02</h5>
-								</td>
-								<td>
-									<p>$720.00</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p>Pixelstore fresh Blackberry</p>
-								</td>
-								<td>
-									<h5>x 02</h5>
-								</td>
-								<td>
-									<p>$720.00</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h4>Subtotal</h4>
+									<h4 style="color: blue;">Subtotal</h4>
 								</td>
 								<td>
 									<h5></h5>
 								</td>
 								<td>
-									<p>$2160.00</p>
+									<h4 style="color: blue;">{{subtotal}}</h4>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<h4>Shipping</h4>
+									<h4 style="color: blue;">Shipping</h4>
 								</td>
 								<td>
 									<h5></h5>
 								</td>
 								<td>
-									<p>Flat rate: $50.00</p>
+									<h4 style="color: blue;">Free</h4>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<h4>Total</h4>
+									<h4 style="color: blue;">Disscount</h4>
+								</td>
+								<td>
+									{% if msg %}
+									<h5 style="color: darkgreen;">{{msg}}</h5>
+									{% endif %}
+								</td>
+								<td>
+									<h4 style="color: blue;">{{discount}}</h4>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h4 style="color: red;">Total</h4>
 								</td>
 								<td>
 									<h5></h5>
 								</td>
 								<td>
-									<p>$2210.00</p>
+									<p style="color: red;">{{total}}</p>
 								</td>
 							</tr>
 						</tbody>
+						<h1>Back To Home</h1>
 					</table>
 				</div>
 			</div>

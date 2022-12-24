@@ -40,7 +40,7 @@
 						<p>Name: {{product.product_name}}</p>
 						<p>Company: {{product.product_company}}</p>
 						<p>category: Men-Shoes</p>
-
+						{% if request.session.email %}
 						{% if wishlist_flag == True %}
 						
 							<a class="primary-btn" href="{% url 'remove_from_wishlist' pk=product.pk %}">Remove From Wishlist</a>
@@ -53,6 +53,11 @@
 							<a class="primary-btn" href="{% url 'remove_from_cart' pk=product.pk%}">Remove From Cart</a>
 						{% else %}
 							<a class="primary-btn" href="{% url 'add_to_cart' pk=product.pk %}">Add to Cart</a>
+						{% endif %}
+						{% else %}
+						<a class="primary-btn" href="{% url 'login' %}">Add To Wishlist</a>
+							<a class="primary-btn" href="{% url 'login' %}">Add to Cart</a>
+
 						{% endif %}
 					</div>
 
@@ -174,12 +179,14 @@
 								{% for i in comments %}
 								<div class="review_item">
 									<div class="media">
+										
 										<div class="d-flex">
-											<img src="{% static 'img/product/review-1.png' %}" alt="">
+											<img src="{{request.session.profile_pic}}" alt="" style="border-radius: 50%; width: 50px;">
 										</div>
+										
 										<div class="media-body">
 											<h4>{{i.name}}</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
+											<h5>{{i.date}}</h5>
 											<a class="reply_btn" href="#">Reply</a>
 										</div>
 									</div>
@@ -259,7 +266,7 @@
 								<div class="review_item">
 									<div class="media">
 										<div class="d-flex">
-											<img src="{% static 'img/product/review-1.png' %}" alt="">
+											<img src="{{request.session.profile_pic}}" alt="" style="border-radius: 50%; width: 50px;">
 										</div>
 										<div class="media-body">
 											<h4>{{i.name}}</h4>

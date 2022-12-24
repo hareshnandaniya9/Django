@@ -13,7 +13,7 @@ urlpatterns = [
     path('logout/',views.logout,name="logout"),
     path('signup/',views.signup,name="signup"),
     path('tracking/',views.tracking,name="tracking"),
-    path('contact/',views.contact,name="contact"),
+    path('contect/',views.contect,name="contect"),
     path('change_password/',views.change_password,name="change_password"),
     path('profile/',views.profile,name="profile"),
     path('forgot_password/',views.forgot_password,name="forgot_password"),
@@ -42,4 +42,8 @@ urlpatterns = [
     path('change_qty/<int:pk>/',views.change_qty,name="change_qty"),
     path('pay/',views.initiate_payment, name='pay'),
     path('callback/',views.callback, name='callback'),
+    path('product_category/<str:name>/',views.product_category,name="product_category"),
+    path('search/',views.search,name="search"),
+    path('price/',views.price,name="price"),
+    path('brand/',views.brand,name="brand"),
 ]

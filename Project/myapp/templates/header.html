@@ -93,24 +93,26 @@
 									<li class="nav-item"><a class="nav-link" href="{% url 'tracking' %}">Tracking</a></li>
 								</ul>
 							</li>
-							<li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'contect' %}">Contact</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							
 							{% if request.session.email %}
 							<li class="nav-item" style="color: blue;"><a href="{% url 'cart' %}" class="cart"><span class="ti-bag"></span></a>({{request.session.cart_count}})</li>
-							<li class="nav-item">
-								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-							</li>
+							
 							{% else %}
 							<li class="nav-item" style="color: blue;"><a href="{% url 'login' %}" class="cart"><span class="ti-bag"></span></a></li>
-							<li class="nav-item">
-								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-							</li>
+							
 							{% endif %}
+							
+							<li class="nav-item">
+								<button class="search">
+									<span class="lnr lnr-magnifier" id="search" name='search'></span></button>
+							</li>
+							
 							{% if request.session.email %}
 							<li class="nav-item " >
-								<p style="margin-left: -10px; color: blue; position: absolute;">welcome {{request.session.fname}} {{request.session.lname}}</p>
+								<p style="margin-left: -10px; color: blue; position: absolute;">welcome {{request.session.fname}}</p>
 							</li>
 							<li class="nav-item " >
 								<a href="{% url 'profile' %}"><img src="{{request.session.profile_pic}}" width="50px" height="50px" style="margin-top: 20px; border-radius: 50%;"></a>
@@ -125,7 +127,7 @@
 		</div>
 		<div class="search_input" id="search_input_box">
 			<div class="container">
-				<form class="d-flex justify-content-between" method="post" action="{% url 'index' %}">
+				<form class="d-flex justify-content-between" method="post" action="{% url 'search' %}">
 					{% csrf_token %}
 					<input type="text" class="form-control" id="search_input" name="search" placeholder="Search Here">
 					<button type="submit" class="btn"></button>

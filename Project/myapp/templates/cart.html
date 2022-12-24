@@ -41,9 +41,13 @@
                                 <th scope="col">Price</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Total</th>
+
                             </tr>
+
                         </thead>
+
                         <tbody>
+                            
                             {% for i in catrs %}
                             <tr>
                                 <td>
@@ -78,24 +82,7 @@
                             {% endfor %}
                             
                             
-                            <tr class="bottom_button">
-                                <td>
-                                    <a class="gray_btn" href="{% url 'update_cart' %}">Update Cart</a>
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-                                    <div class="cupon_text d-flex align-items-center">
-                                        <input type="text" placeholder="Coupon Code">
-                                        <a class="primary-btn" href="#">Apply</a>
-                                        <a class="gray_btn" href="#">Close Coupon</a>
-                                    </div>
-                                </td>
-                            </tr>
+                            
                             <tr>
                                 <td>
 
@@ -104,11 +91,11 @@
 
                                 </td>
                                 <td>
-                                    <h5>Subtotal</h5>
+                                    <h5 style="color: blue;">Subtotal</h5>
                                 </td>
                                 
                                 <td>
-                                    <h5>{{totalprice}}</h5>
+                                    <h5 style="color: darkgreen;">{{totalprice}}</h5>
                                 </td>
                                 
                              
@@ -133,6 +120,7 @@
                                 <td>
                                     <div class="shipping_box">
                                         <ul class="list">
+                                            <h4 style="margin-right: 100px; color: blue;">Note</h4>
                                             <h5>Discount:- up to 1000 :No Discount</h5>
                                             <h5>Discount:- up to 2000 :5% Discount</h5>
                                             <h5>Discount:- up to 5000 :10% Discount</h5>
@@ -144,8 +132,7 @@
                                         </ul>
                                        
                                         
-                                        <input type="text" placeholder="Postcode/Zipcode">
-                                        <a class="gray_btn" href="#">Update Details</a>
+                                        
                                     </div>
                                 </td>
                             </tr>
