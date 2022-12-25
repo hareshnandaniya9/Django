@@ -52,7 +52,9 @@
 						<form class="row login_form" action="{% url 'login' %}" method="post" id="contactForm" novalidate="novalidate">
 							{% csrf_token %}
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="email" style="border-radius:10px; border-color:blue; color: black; font: bold;" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<input type="text" class="form-control" id="email" name="email" style="border-radius:10px; border-color:blue; color: black; font: bold;" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+						 <span id="email_error" style="color: red;"></span>
+
 							</div>
 							<div class="col-md-12 form-group">
 								<input type="Password" class="form-control" id="name" style="border-radius:10px; border-color:blue; color: black; font: bold;" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
@@ -72,7 +74,29 @@
 	</section>
 	<!--================End Login Box Area =================-->
 
-	
+	<script>
+		$("#email").change(function(){
+			var email=$(this).val();
+
+			$.ajax({
+				url: '/ajax/validate_email/',
+				data: {
+					'email':email
+				},
+				dataType: 'json',
+				success: function(data) {
+					if (!data.is_taken){
+						document.getElementById("email_error").innerHTML="This Email Id Is Not Registered"
+					}
+					else
+					{
+						document.getElementById("email_error").innerHTML=""
+
+					}
+				}
+			});
+		});
+	</script>
 </body>
 
 </html>

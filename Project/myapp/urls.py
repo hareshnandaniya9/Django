@@ -46,4 +46,7 @@ urlpatterns = [
     path('search/',views.search,name="search"),
     path('price/',views.price,name="price"),
     path('brand/',views.brand,name="brand"),
+    path('ajax/validate_email/',views.validate_login,name="validate_email"),
+    path('ajax/validate_mobile/',views.validate_mobile,name="validate_mobile"),
+
 ]

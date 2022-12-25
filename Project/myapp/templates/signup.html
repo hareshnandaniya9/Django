@@ -63,9 +63,13 @@
 							</div>
 							<div class="form-group">
 								<input type="email" class="form-control" id="email" name="email" style="border-radius:10px; border-color:blue; color: black; font: bold;" value="{{user.email}}" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
+					<span id="email_error" style="color: red;"></span>					 
+
 							</div>
 							<div class="form-group">
 								<input type="text" class="form-control" id="mobile" name="mobile" style="border-radius:10px; border-color:blue; color: black; font: bold;" value="{{user.mobile}}" placeholder="Enter Mobile Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Mobile Number'">
+					<span id="mobile_error" style="color: red;"></span>					 
+
 							</div>
 							<div class="form-group">
 								<textarea class="form-control" name="address" style="border-radius:10px; border-color:blue; color: black; font: bold;" id="address" rows="1" placeholder="Enter Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Address'">{{user.address}}</textarea>
@@ -91,7 +95,51 @@
 		</div>
 	</section>
 	<!--================Contact Area =================-->
+	<script>
+		$("#email").change(function(){
+			var email=$(this).val();
 
+			$.ajax({
+				url: '/ajax/validate_email/',
+				data: {
+					'email':email
+				},
+				dataType: 'json',
+				success: function(data) {
+					if (data.is_taken){
+						document.getElementById("email_error").innerHTML="This Email Id Is Alredy Registered"
+					}
+					else
+					{
+						document.getElementById("email_error").innerHTML=""
+
+					}
+				}
+			});
+		});
+
+		$("#mobile").change(function(){
+			var mobile=$(this).val();
+
+			$.ajax({
+				url: '/ajax/validate_mobile/',
+				data: {
+					'mobile':mobile
+				},
+				dataType: 'json',
+				success: function(data) {
+					if (data.is_taken){
+						document.getElementById("mobile_error").innerHTML="This Mobile No Is Alredy Registered"
+					}
+					else
+					{
+						document.getElementById("mobile_error").innerHTML=""
+
+					}
+				}
+			});
+		});
+	</script>
 
 </body>
 

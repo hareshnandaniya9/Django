@@ -4,11 +4,23 @@ import random
 from django.conf import settings
 from .paytm import generate_checksum, verify_checksum
 from django.core.mail import send_mail
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
-
+def validate_login(request):
+	email=request.GET.get('email')
+	data={
+		'is_taken':User.objects.filter(email__iexact=email).exists()		
+	}
+	return JsonResponse(data)
+def validate_mobile(request):
+	mobile=request.GET.get('mobile')
+	data={
+		'is_taken':User.objects.filter(mobile__iexact=mobile).exists()		
+	}
+	return JsonResponse(data)
 def search(request):
 	search=request.POST['search']
 	try:
@@ -25,7 +37,7 @@ def index(request):
 		user=User.objects.get(email=request.session['email'])
 		if user.usertype=="user":
 			products=Product.objects.all()
-			return render(request,"index.html",{'products':products,'wishlist_flag':wishlist_flag})
+			return render(request,"index.html",{'products':products})
 		else:
 			return render(request,"seller_index.html")
 	except:
