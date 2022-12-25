@@ -1,0 +1,152 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+</head>
+
+<body style="background-color: lightblue;">
+    
+
+
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Resister</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Resister</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Checkout Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <div class="mb-4">
+                    <h4 class="font-weight-semi-bold mb-4">Resistration</h4>
+                    <form>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>First Name</label>
+                            <input class="form-control" name="fname" type="text" placeholder="John">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Last Name</label>
+                            <input class="form-control" name="lname" type="text" placeholder="Doe">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>E-mail</label>
+                            <input class="form-control" name="email" type="text" placeholder="example@email.com">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Mobile No</label>
+                            <input class="form-control" name="mobile" type="text" placeholder="+123 456 789">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Aadhar No</label>
+                            <input class="form-control" name="aadhar" type="text" placeholder="123 Street">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>City</label>
+                            <input class="form-control" name="city" type="text" placeholder="123 Street">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Country</label>
+                            <select class="custom-select" name="country">
+                                <option selected>India</option>
+                                <option>United States</option>
+                                <option>Albania</option>
+                                <option>Algeria</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>State</label>
+                            <select class="custom-select" name="state">
+                                <option selected>Gujrat</option>
+                                <option>Mharastra</option>
+                                <option>MP</option>
+                                <option>UP</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-9 form-group" >
+                            <textarea cols="92" rows="5" placeholder="Address" name="address"></textarea>
+                        </div>
+                        
+                        <div class="col-md-12 form-group">
+                            <input type="submit" name="action" value="Sign up" class="btn btn-primary" style="margin-left: 270px; margin-top: 20px; width: 200px; border-radius: 10px;">
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="collapse mb-4" id="shipping-address">
+                    <h4 class="font-weight-semi-bold mb-3">Shipping Address</h4>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>First Name</label>
+                            <input class="form-control" type="text" placeholder="John">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Last Name</label>
+                            <input class="form-control" type="text" placeholder="Doe">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>E-mail</label>
+                            <input class="form-control" type="text" placeholder="example@email.com">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Mobile No</label>
+                            <input class="form-control" type="text" placeholder="+123 456 789">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Aadhar No</label>
+                            <input class="form-control" type="text" placeholder="123 Street">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>City</label>
+                            <input class="form-control" type="text" placeholder="123 Street">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Country</label>
+                            <select class="custom-select">
+                                <option selected>United States</option>
+                                <option>Afghanistan</option>
+                                <option>Albania</option>
+                                <option>Algeria</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>City</label>
+                            <input class="form-control" type="text" placeholder="New York">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>State</label>
+                            <input class="form-control" type="text" placeholder="New York">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>ZIP Code</label>
+                            <input class="form-control" type="text" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- Checkout End -->
+
+
+    
+    
+</body>
+
+</html>
+{% endblock %}
